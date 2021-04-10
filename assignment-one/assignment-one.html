@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Image burst</title>
+	<link type='text/css' rel="stylesheet" href="css/common.css">
+</head>
+<body>
+  	<header>
+  <h1>Burst Effects</h1>
+</header>
+
+<main>
+
+  <div class="scene">
+    <div class="section canvas-1">
+      <span class="circle hide"></span>
+      <span class="circle hide"></span>
+      <span class="circle hide"></span>
+      <span class="rect hide"></span>
+      <span class="rect hide"></span>
+      <span class="rect hide"></span>
+      <span class="circle hide"></span>
+      <span class="circle hide"></span>
+      <span class="circle hide"></span>
+      <span class="rect hide"></span>
+      <span class="rect hide"></span>
+      <span class="rect hide"></span>
+    </div>
+    <p>DOM & animejs</p>
+  </div>
+
+  <div class="scene">
+    <div class="section canvas-2">
+      <svg id="svg-1" x="0px" y="0px" viewBox="0 0 100 100">
+          <line x1="93" y1="50" x2="63" y2="50" />
+          <line x1="80.4" y1="19.6" x2="59.2" y2="40.8" />
+          <line x1="50" y1="7" x2="50" y2="37" />
+          <line x1="19.6" y1="19.6" x2="40.8" y2="40.8" />
+          <line x1="7" y1="50" x2="37" y2="50" />
+          <line x1="19.6" y1="80.4" x2="40.8" y2="59.2" />
+          <line x1="50" y1="93" x2="50" y2="63" />
+          <line x1="80.4" y1="80.4" x2="59.2" y2="59.2" />
+      </svg>
+    </div>
+    <p>SVG & js</p>
+  </div>
+
+</main>
+
+	<script type="text/javascript" src="https://cdn.bootcss.com/animejs/2.2.0/anime.js"></script>
+	<script type="text/javascript">
+		function $(selector) {
+    return document.querySelectorAll(selector);
+}
+
+function $$(selector) {
+    return document.querySelector(selector);
+}
+
+function randInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function getStyle(obj, attr) {
+    return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj)[attr];
+}
+
+/* canvas-1 */
+
+function canvas_1(e) {
+    let c = $$('.canvas-1');
+    let x = e.pageX - c.offsetLeft;
+    let y = e.pageY - c.offsetTop;
+    let shapes = $('.canvas-1 span');
+    let radius = 80;
+
+    shapes = Array.prototype.slice.call(shapes);
+    shapes.forEach(e => {
+        let left = x - parseInt(getStyle(e, 'width')) / 2;
+        let top = y - parseInt(getStyle(e, 'height')) / 2;
+        e.style.left = left + 'px';
+        e.style.top = top + 'px';
+        e.classList.remove('hide');
+    });
+
+    c.removeEventListener('click', canvas_1);
+
+    anime({
+        targets: shapes,
+        translateX: (el, i) => {
+            if (i % 6 === 0) return (Math.random() / 2 + 0.5) * (0 - radius);
+            if (i % 6 === 1 || i % 6 === 5) return (Math.random() / 2 + 0.5) * (0 - radius / 2);
+            if (i % 6 === 2 || i % 6 === 4) return (Math.random() / 2 + 0.5) * (radius / 2);
+            if (i % 6 === 3) return (Math.random() / 2 + 0.5) * radius;
+        },
+        translateY: (el, i) => {
+            if (i % 6 === 0 || i % 6 === 3) return 0;
+            if (i % 6 === 1 || i % 6 === 2) return (Math.random() / 2 + 0.5) * radius * 0.87;
+            if (i % 6 === 4 || i % 6 === 5) return (Math.random() / 2 + 0.5) * (0 - radius * 0.87);
+        },
+        scale: 0,
+        duration: 600,
+        easing: [.01, .89, .58, 1.01],
+        complete: () => {
+            shapes.forEach(e => {
+                e.setAttribute('style', '');
+                e.classList.add('hide');
+            });
+            c.addEventListener('click', canvas_1);
+        }
+    });
+}
+
+$$('.canvas-1').addEventListener('click', canvas_1);
+
+/* canvas-2 */
+
+function canvas_2(e) {
+    let c = $$('.canvas-2');
+    let s = $$('#svg-1');
+    let x = e.pageX - c.offsetLeft;
+    let y = e.pageY - c.offsetTop;
+    let width = parseInt(getStyle(s, 'width'));
+    let height = parseInt(getStyle(s, 'height'));
+
+    c.removeEventListener('click', canvas_2);
+    
+    s.style.left = (x - width / 2) + 'px';
+    s.style.top = (y - height / 2) + 'px';
+    s.classList.add('c' + randInt(0, 2));
+    s.classList.add('active');
+
+    setTimeout(() => {
+        s.classList.remove('active');
+        s.classList.remove('c0');
+        s.classList.remove('c1');
+        s.classList.remove('c2');
+        c.addEventListener('click', canvas_2);
+    }, 400);
+}
+
+$$('.canvas-2').addEventListener('click', canvas_2);
+	</script>
+</body>
+</html>

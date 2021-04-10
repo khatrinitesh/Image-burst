@@ -1,0 +1,142 @@
+*{
+	margin:0;
+	padding:0;
+}
+
+@import url("https://fonts.googleapis.com/css?family=Inconsolata:400,700");
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background: #cfd8dc;
+}
+
+h1 {
+    margin: 0;
+    text-align: center;
+    padding: 30px;
+    background-color: #9378c7;
+    color: #eee;
+    font-family: Inconsolata;
+}
+
+main {
+    padding-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.scene {
+    margin-bottom: 30px;
+}
+
+.section {
+    background-color: #fff;
+    width: 300px;
+    height: 200px;
+    margin: 25px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .15), 0 -8px 20px rgba(0, 0, 0, .15);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.section + p {
+    text-align: center;
+    font-family: Inconsolata;
+}
+
+/* canvas-1 */
+
+.canvas-1 {
+    position: relative;
+}
+
+.canvas-1 span {
+    position: absolute;
+    display: block;
+}
+
+.canvas-1 span.hide {
+    opacity: 0;
+}
+
+.circle {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.rect {
+    width: 45px;
+    height: 45px;
+}
+
+.circle:nth-child(3n+1) {
+    background-color: #F44336;
+}
+
+.circle:nth-child(3n+2) {
+    background-color: #7B1FA2;
+}
+
+.circle:nth-child(3n+3) {
+    background-color: #0288D1;
+}
+
+.rect:nth-child(3n+1) {
+    background-color: #4CAF50;
+}
+
+.rect:nth-child(3n+2) {
+    background-color: #FFB300;
+}
+
+.rect:nth-child(3n+3) {
+    background-color: #F4511E;
+}
+
+/* canvas-2 */
+
+.canvas-2 {
+    position: relative;
+}
+
+.canvas-2 svg {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    opacity: 0;
+}
+
+.canvas-2 svg line {
+    fill: none;
+    stroke-width: 3;
+    stroke-dasharray: 30px 30px;
+    stroke-dashoffset: 6;
+    transition: .3s cubic-bezier(0.11, 0.48, 0.57, 0.99);
+}
+
+.canvas-2 svg.active {
+    opacity: 1;
+}
+
+.canvas-2 svg.active line {
+    stroke-dashoffset: 30px;
+}
+
+.canvas-2 svg.c0 line {
+    stroke: #FF931E;
+}
+
+.canvas-2 svg.c1 line {
+    stroke: #E53935;
+}
+
+.canvas-2 svg.c2 line {
+    stroke: #7B1FA2;
+}
